@@ -1,10 +1,9 @@
 use diesel::{Insertable, Queryable};
-use super::schema::{mtg_cards, mtg_collection};
 
 // this needs to be expanded for actual use and is kept minimal 
 // for development
-#[derive(Queryable, Insertable)]
-#[table_name = "mtg_cards"]
+#[derive(Queryable)]
+#[diesel(table_name = crate::schema::mtg_cards)]
 pub struct MTGCard {
     // Internal id in the database
     pub id: i32,
@@ -15,7 +14,7 @@ pub struct MTGCard {
     // CMC
     pub cmc: i8,
     // Keywords
-    pub keywords: Vec<String>,
+    pub keywordss: Vec<String>,
     // Text on the card
     pub oracle_text: String,
     // Is it foil?
@@ -32,12 +31,21 @@ pub struct MTGCard {
     pub edhrec_url: String,
     pub cardmarket_id: i32,
     pub scryfall_id: String,
+    // Color identity
+    // set
+    // Multiverse ID
+    // Images
+    // Colors
+    // keywords
 }
 
 #[derive(Queryable, Insertable)]
-#[table_name = "mtg_collection"]
+#[diesel(table_name = crate::schema::mtg_card_collection)]
 pub struct MTGCollection {
     pub id: i32,
-    pub card_id: i32,
     pub count: i32
+    // a new table for each user would be nice,
+    // otherwise just extend Cards table?
+    // Neither seems like the right thing,
+    // DBS course was a while ago
 }
