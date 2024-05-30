@@ -17,6 +17,11 @@ I won't include every field that scryfall returns in the database, but most rele
 After creating the schema, it was migrated to the database using `diesel migration generate --diff-schema <schema name>` and `diesel migration run`.
 I think that's all for today
 
+### Fixing the ChatGPT errors (30.5.2024)
+I recently whipped up the saga orchestrator for a uni project in rust using acitx-web, so after getting a bit more familiar with rust I looked at this again.
+There wasn't really anything new I learned that helped me get it to a running state, but being more comfortable with the language meant debugging was way easier.
+But now the whole thing is building at least, I didn't test it since I didn't want to install postgres on my laptop.
+
 ## Notes for further development
 ### Support different users
 The maximum imaginable number of users of this project will be my playgroup.
