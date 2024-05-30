@@ -1,23 +1,40 @@
-use actix_web::{web, HttpResponse, Responder};
+use actix_web::{get, web, HttpResponse, Responder};
 use crate::db::connection::DbPool;
 use serde::Deserialize;
+use diesel::prelude::*;
+use crate::db::models::MTGCard;
+use serde_json::json;
 
-#[derive(Deserialize)]
-pub struct CardInfo {
-    // this migth have to be changed according 
-    // to what the scanner output ends up being
-    gatherer_id: String
+// This should be in the 'handlers'
+pub fn config(cfg: &mut web::ServiceConfig) {
+    cfg.service(add_card_scryfall_id);
 }
 
-pub async fn add_card_to_collection(
+#[get("/add/scryfallid")]
+pub async fn add_card_scryfall_id(
     pool: web::Data<DbPool>,
     card_info: web::Json<CardInfo>,
 ) -> impl Responder{
-    let _conn = &mut pool.get().expect("Couldn't get Database connection from pool");
+
+    use crate::schema::mtg_cards::dsl::*;
+    let conn = &mut pool.get().expect("Couldn't get Database connection from pool");
     
     // Check if card is already in DB
+    let card = mtg_cards
+        .filter(scryfall_id.eq(&card_info.scryfall_id))
+        .select(MTGCard::as_select())
+        .first(conn)
+        .optional()
+        .unwrap();
 
-    HttpResponse::Ok()
+    HttpResponse::Ok().json(json!(card))
+}
+
+#[derive(Deserialize)]
+pub struct CardInfo {
+    // this might have to be changed according 
+    // to what the scanner output ends up being
+    scryfall_id: String
 }
 
 // fn test_query() {

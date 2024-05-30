@@ -1,7 +1,9 @@
 use diesel::prelude::*;
+use serde::{Deserialize, Serialize};
 
 // this needs to be expanded for actual use and is kept minimal 
 // for development
+#[derive(Serialize, Deserialize)]
 #[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::mtg_cards)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
