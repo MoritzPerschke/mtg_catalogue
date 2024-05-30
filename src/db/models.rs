@@ -1,9 +1,10 @@
-use diesel::{Insertable, Queryable};
+use diesel::{Insertable, Queryable, Selectable};
 
 // this needs to be expanded for actual use and is kept minimal 
 // for development
-#[derive(Queryable)]
+#[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::mtg_cards)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct MTGCard {
     // Internal id in the database
     pub id: i32,
@@ -12,9 +13,9 @@ pub struct MTGCard {
     // Type of card (Creature, Instant, ...)
     pub type_line: String,
     // CMC
-    pub cmc: i8,
+    pub cmc: i32,
     // Keywords
-    pub keywordss: Vec<String>,
+    pub keywords: Vec<String>,
     // Text on the card
     pub oracle_text: String,
     // Is it foil?

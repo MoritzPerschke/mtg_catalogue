@@ -11,7 +11,7 @@ async fn main() -> Result<(), std::io::Error> {
     dotenv::dotenv().ok();
     let pool = establish_connection();
 
-    HttpServer::new(move || {
+    HttpServer::new(|| {
         App::new()
             .app_data(pool.clone())
             .configure(routes::init())
