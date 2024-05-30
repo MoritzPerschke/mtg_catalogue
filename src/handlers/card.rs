@@ -1,5 +1,6 @@
 use actix_web::{web, HttpResponse, Responder};
 use crate::db::connection::DbPool;
+use serde::Deserialize;
 
 #[derive(Deserialize)]
 pub struct CardInfo {
@@ -12,11 +13,27 @@ pub async fn add_card_to_collection(
     pool: web::Data<DbPool>,
     card_info: web::Json<CardInfo>,
 ) -> impl Responder{
-    let conn = pool.get().expect("Couldn't get Database connection from pool");
+    let _conn = &mut pool.get().expect("Couldn't get Database connection from pool");
     
     // Check if card is already in DB
-    let card = mtg_cards::table
-        .filter(mtg_cards::gatherer_id.eq(&card_info.gatherer_id));
 
     HttpResponse::Ok()
 }
+
+// fn test_query() {
+//     // Use this so that filtering and stuff is quicker
+//     use crate::schema::mtg_cards::dsl::*;
+//     let connection_pool = &mut establish_connection();
+//     let connection = &mut connection_pool.get().unwrap();
+//
+//     let result = mtg_cards
+//         .filter(foil.eq(false))
+//         .limit(5)
+//         .select(MTGCard::as_select())
+//         .load(connection)
+//         .expect("Query couldn't execute");
+//         
+//     for card in result {
+//         println!("Title: {}", card.name);
+//     }
+// }

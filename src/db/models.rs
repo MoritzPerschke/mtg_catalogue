@@ -1,4 +1,4 @@
-use diesel::{Insertable, Queryable, Selectable};
+use diesel::prelude::*;
 
 // this needs to be expanded for actual use and is kept minimal 
 // for development
@@ -15,17 +15,17 @@ pub struct MTGCard {
     // CMC
     pub cmc: i32,
     // Keywords
-    pub keywords: Vec<String>,
+    pub keywords: Option<Vec<String>>,
     // Text on the card
-    pub oracle_text: String,
+    pub oracle_text: Option<String>,
     // Is it foil?
     pub foil: bool,
     // Power/Toughness in case it's a creature
     pub power: String,
-    pub toughnes: String,
+    pub toughness: String,
     // Price that scyfall sent on request, maybe update in regular intervals
-    pub price_regular: f64,
-    pub price_foil: f64,
+    pub price_regular: f32,
+    pub price_foil: f32,
     // Language of the card
     pub language: String,
     // Urls to the card on different platforms
