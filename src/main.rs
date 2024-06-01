@@ -15,7 +15,7 @@ async fn main() -> Result<(), std::io::Error> {
     HttpServer::new(|| {
         App::new()
             .app_data(establish_connection().clone())
-            .service(web::scope("/card").configure(card::config))
+            .service(web::scope("/card").configure(routes::card::config))
             .route("/", web::to(|| async {HttpResponse::Ok().body("Hello from mtg catalogue api")}))
     })
     .bind("127.0.0.1:8080")?
